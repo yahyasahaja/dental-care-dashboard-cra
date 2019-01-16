@@ -1,9 +1,14 @@
 import React, { Component, Suspense } from 'react'
-import { BrowserRouter, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import LoadingPage from './screens/Loading'
 import styles from './App.scss'
 
-const Login = React.lazy(() => import('./screens/Auth/Login'))
+const Login = React.lazy(
+  () => import(/*webpackChunkName: "Login"*/ './screens/Auth/Login')
+)
+const Dashboard = React.lazy(
+  () => import(/*webpackChunkName: "Dashboard"*/ './screens/Dashboard')
+)
 
 class App extends Component {
   render() {
@@ -11,7 +16,11 @@ class App extends Component {
       <div className={styles.container}>
         <Suspense fallback={<LoadingPage />} >
           <BrowserRouter>
-            <Route path="/auth/login" render={props => <Login {...props} />} />
+            <Switch>
+              <Route path="/auth/login" render={props => <Login {...props} />} />
+              <Route path="/dashboard/*" render={props => <Dashboard {...props} />} />
+              <Redirect from="/dashboard" to="/dashboard/home" />
+            </Switch>
           </BrowserRouter>
         </Suspense>
       </div>
