@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import LoadingPage from './screens/Loading'
 import styles from './App.scss'
 
-const Login = React.lazy(() => import('./screens/Auth/login'))
+const Login = React.lazy(() => import('./screens/Auth/Login'))
 
 class App extends Component {
   render() {

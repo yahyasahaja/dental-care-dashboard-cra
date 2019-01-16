@@ -4,13 +4,13 @@ import './index.css'
 import Router from './App'
 import * as serviceWorker from './serviceWorker'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import red from '@material-ui/core/colors/red'
+import blue from '@material-ui/core/colors/blue'
 import lightBlue from '@material-ui/core/colors/lightBlue'
 
 const MUITheme = createMuiTheme({
   palette: {
-    primary: red,
-    secondary: lightBlue,
+    primary: lightBlue,
+    secondary: blue,
   },
   typography: {
     useNextVariants: true,

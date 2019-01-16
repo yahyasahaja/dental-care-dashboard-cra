@@ -6,33 +6,51 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
+import SendIcon from '@material-ui/icons/Send'
 import ProgressBar from '@material-ui/core/CircularProgress'
 
 import styles from './css/login.module.scss'
 
+@observer
 class Login extends Component {
-  shouldShowPassword = observable(false)
-  email = observable('')
-  password = observable('')
+  @observable shouldShowPassword = false
+  @observable email = ''
+  @observable password = ''
 
   handleChange(name, value) {
-    if (typeof value !== 'string') value = value.target.value
-
-    if (name === 'telp')
-      if (value[0] === '0') 
-        value = value.split('').slice(1).join('')
-
-    this.setState({ [name]: value })
+    this[name] = value.target.value
   }
 
   handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }))
+    this.shouldShowPassword = !this.shouldShowPassword
   }
 
+  renderButton() {
+    if (!this.isLoading) return (
+      <Button 
+        fullWidth 
+        size="large"
+        variant="contained" 
+        color="primary"
+        style={{marginTop: 20, color: 'white'}}
+        type="submit"
+      >
+        Send
+        {/* This Button uses a Font Icon, see the installation instructions in the docs. */}
+        <SendIcon style={{marginLeft: 10}} />
+      </Button>
+    )
+  }
+
+  onSubmit = e => {
+    e.preventDefault()
+  }
 
   render() {
     return (
-      <div className={styles.container} >
+      <form className={styles.container} onSubmit={this.onSubmit} >
         <div className={styles.background} >
           <img src="/image/Yosemite.jpg" alt=""/>
         </div>
@@ -47,7 +65,6 @@ class Login extends Component {
             className={styles.input}
             onChange={this.handleChange.bind(this, 'email')}
             value={this.email}
-            multiline
             fullWidth
             rowsMax={6}
             required
@@ -81,10 +98,12 @@ class Login extends Component {
               }}
             />
           </div>
+
+          {this.renderButton()}
         </div>
-      </div>
+      </form>
     )
   }
 }
 
-export default observer(Login)
+export default Login
