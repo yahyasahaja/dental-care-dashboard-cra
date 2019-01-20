@@ -7,9 +7,9 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
+// import Icon from '@material-ui/core/Icon'
 import SendIcon from '@material-ui/icons/Send'
-import ProgressBar from '@material-ui/core/CircularProgress'
+// import ProgressBar from '@material-ui/core/CircularProgress'
 
 import styles from './css/login.module.scss'
 

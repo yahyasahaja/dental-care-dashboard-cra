@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import LoadingPage from './screens/Loading'
-import styles from './App.scss'
+import styles from './App.module.scss'
 
 const Login = React.lazy(
   () => import(/*webpackChunkName: "Login"*/ './screens/Auth/Login')
@@ -19,7 +19,7 @@ class App extends Component {
             <Switch>
               <Route path="/auth/login" render={props => <Login {...props} />} />
               <Route path="/dashboard/*" render={props => <Dashboard {...props} />} />
-              <Redirect from="/dashboard" to="/dashboard/home" />
+              <Redirect from="/dashboard" to="/dashboard/membership" />
             </Switch>
           </BrowserRouter>
         </Suspense>
