@@ -14,6 +14,7 @@ class App extends Component {
   render() {
     return (
       <div className={styles.container}>
+        <div className={styles.shadow} />
         <Suspense fallback={<LoadingPage />} >
           <BrowserRouter>
             <Switch>

@@ -2,7 +2,7 @@
   display: block;
   height: 100%;
   width: 100%;
-  padding-top: 200px;
+  padding-top: 150px;
 
   .background {
     top: 0;
@@ -36,6 +36,20 @@
     position: relative;
     margin: auto;
     border-radius: 10px;
+    opacity: 0;
+    transform: translateY(-100%);
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+
+    .logo {
+      margin-bottom: 25px;
+      margin-top: 30px;
+      margin-left: 20px;
+
+      img {
+        width: 80%;
+      }
+    }
 
     .password-wrapper {
       width: calc(100% - 15px);
@@ -48,5 +62,31 @@
         width: 100%;
       }
     }
+  }
+}
+
+@keyframes
+topDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes
+bottomUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
   }
 }

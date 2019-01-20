@@ -18,6 +18,14 @@ class Login extends Component {
   @observable shouldShowPassword = false
   @observable email = ''
   @observable password = ''
+  @observable isIn = false
+  @observable isOut = false
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.isIn = true
+    }, 100)
+  }
 
   handleChange(name, value) {
     this[name] = value.target.value
@@ -46,18 +54,26 @@ class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault()
+    this.gotoDashboard()
+  }
+
+  gotoDashboard() {
+    this.isOut = true
+    setTimeout(() => this.props.history.push('/dashboard'), 600)
   }
 
   render() {
     return (
-      <form className={styles.container} onSubmit={this.onSubmit} >
-        <div className={styles.background} >
-          <img src="/image/Yosemite.jpg" alt=""/>
-        </div>
+      <div className={styles.container} >
+        <form 
+          className={styles.wrapper} 
+          onSubmit={this.onSubmit} 
+          style={{animationName: this.isOut ? styles.bottomUp : this.isIn ? styles.topDown : ''}}
+        >
+          <div className={styles.logo} >
+            <img src="/image/logo.png" alt=""/>
+          </div>
 
-        <div className={styles.shadow} />
-
-        <div className={styles.wrapper} >
           <TextField
             name="email"
             type="email"
@@ -100,8 +116,8 @@ class Login extends Component {
           </div>
 
           {this.renderButton()}
-        </div>
-      </form>
+        </form>
+      </div>
     )
   }
 }

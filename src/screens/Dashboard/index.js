@@ -10,7 +10,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import Divider from '@material-ui/core/Divider'
+// import Divider from '@material-ui/core/Divider'
 
 import styles from './css/dashboard.module.scss'
 
@@ -115,7 +115,7 @@ class Dashboard extends Component {
           </List>
         </div>
         
-        <div className={styles.shadow} />
+        {/* <div className={styles.shadow} /> */}
 
         <div className={styles.wrapper}>
           {ROUTER.map((d, i) => 
