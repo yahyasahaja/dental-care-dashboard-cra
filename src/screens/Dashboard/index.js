@@ -10,6 +10,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import Divider from '@material-ui/core/Divider'
 
 import styles from './css/dashboard.module.scss'
 
@@ -90,17 +91,24 @@ class Dashboard extends Component {
           className={styles.nav} 
           style={{animationName: this.activeAnim ? styles.leftRight : ''}} 
         >
+          <div className={styles.logo} >
+            <img src="/image/logo.png" alt=""/>
+          </div>
+          {/* <Divider /> */}
           <List component="nav">
             {ROUTER.map((d, i) => {
               return (
                 <ListItem selected={this.selected == i} key={i} button onClick={() => {
                   this.selected = i
                   this.props.history.push(d.path)
+                  
                 }}>
                   <ListItemIcon>
                     <span className={`mdi mdi-${d.icon} ${styles.icon}`} />
                   </ListItemIcon>
-                  <ListItemText primary={d.title} />
+                  <ListItemText 
+                    primary={d.title} 
+                  />
                 </ListItem>
               )
             })}

@@ -38,12 +38,21 @@
     z-index: 3;
     background: #f9f9f9;
     position: fixed;
-    padding-top: 80px;
     transform: translateX(-100%);
     
     // animation-name: leftRight;
     animation-duration: 1s;
     animation-fill-mode: forwards;
+
+    .logo {
+      margin-bottom: 25px;
+      margin-top: 30px;
+      margin-left: 20px;
+
+      img {
+        width: 80%;
+      }
+    }
 
     .icon {
       font-size: 18pt;
