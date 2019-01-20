@@ -50,11 +50,11 @@ const ROUTER = [
 @observer
 class Dashboard extends Component {
   @observable anchorElement = null
-  @observable activeAnim = false
+  @observable isIn = false
   @observable selected = -1
 
   componentDidMount() {
-    setTimeout(() => this.activeAnim = true, 100)
+    setTimeout(() => this.isIn = true, 100)
 
     for (let i in ROUTER) 
       if (window.location.pathname.indexOf(ROUTER[i].path) !== -1) this.selected = i
@@ -70,7 +70,7 @@ class Dashboard extends Component {
       <div className={styles.container} >
         <div 
           className={styles.top} 
-          style={{animationName: this.activeAnim ? styles.topDown : ''}} 
+          style={{animationName: this.isIn ? styles.topDown : ''}} 
         >
           <Avatar
             onClick={e => this.anchorElement = e.currentTarget}
@@ -89,7 +89,7 @@ class Dashboard extends Component {
 
         <div 
           className={styles.nav} 
-          style={{animationName: this.activeAnim ? styles.leftRight : ''}} 
+          style={{animationName: this.isIn ? styles.leftRight : ''}} 
         >
           <div className={styles.logo} >
             <img src="/image/logo.png" alt=""/>
