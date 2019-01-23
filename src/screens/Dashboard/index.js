@@ -4,7 +4,7 @@ import Avatar from '@material-ui/core/Avatar'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import { observable, action } from 'mobx'
+import { observable, action, observe } from 'mobx'
 import { observer } from 'mobx-react'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -19,8 +19,15 @@ import Wrapper from './Wrapper'
 
 //ROUTERS
 import Membership from './Membership'
+import { user, token } from '../../services/stores'
 
 const ROUTER = [
+  {
+    title: 'Home',
+    path: '/dashboard/home',
+    icon: 'home',
+    Component: () => 'Home'
+  },
   {
     title: 'Membership',
     path: '/dashboard/membership',
@@ -28,22 +35,40 @@ const ROUTER = [
     Component: Membership
   },
   {
+    title: 'Categories',
+    path: '/dashboard/categories',
+    icon: 'account-details',
+    Component: () => 'Categories'
+  },
+  {
     title: 'Reservation',
     path: '/dashboard/reservation',
     icon: 'calendar-text',
-    Component: () => 'a'
+    Component: () => 'Reservation'
+  },
+  {
+    title: 'Push Messages',
+    path: '/dashboard/push',
+    icon: 'send',
+    Component: () => 'Push Messages'
+  },
+  {
+    title: 'Doctor Activity',
+    path: '/dashboard/doctor',
+    icon: 'doctor',
+    Component: () => 'Doctor Activity'
   },
   {
     title: 'Training',
     path: '/dashboard/training',
     icon: 'video',
-    Component: () => 'a'
+    Component: () => 'Training'
   },
   {
     title: 'News',
     path: '/dashboard/news',
     icon: 'newspaper',
-    Component: () => 'a'
+    Component: () => 'News'
   },
 ]
 
@@ -54,10 +79,21 @@ class Dashboard extends Component {
   @observable selected = -1
 
   componentDidMount() {
-    setTimeout(() => this.isIn = true, 100)
+    setTimeout(() => {
+      this.isIn = true
+    }, 100)
+
+    if (!token.isSettingUp && !user.isLoggedIn) return this.props.history.push('/auth/login')
+    this.tokenDisposer = observe(token, 'isSettingUp', () => {
+      if (!token.isSettingUp && !user.isLoggedIn) this.props.history.push('/auth/login')
+    })
 
     for (let i in ROUTER) 
-      if (window.location.pathname.indexOf(ROUTER[i].path) !== -1) this.selected = i
+      if (window.location.pathname.indexOf(ROUTER[i].path) !== -1) this.selected = Number(i)
+  }
+
+  componentWillUnmount() {
+    if (this.tokenDisposer) this.tokenDisposer()
   }
 
   @action
@@ -98,7 +134,7 @@ class Dashboard extends Component {
           <List component="nav">
             {ROUTER.map((d, i) => {
               return (
-                <ListItem selected={this.selected == i} key={i} button onClick={() => {
+                <ListItem selected={this.selected === i} key={i} button onClick={() => {
                   this.selected = i
                   this.props.history.push(d.path)
                   

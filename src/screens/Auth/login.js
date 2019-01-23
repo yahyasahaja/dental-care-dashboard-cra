@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { observable } from 'mobx'
+import { observable, observe } from 'mobx'
 import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -9,9 +9,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Button from '@material-ui/core/Button'
 // import Icon from '@material-ui/core/Icon'
 import SendIcon from '@material-ui/icons/Send'
-// import ProgressBar from '@material-ui/core/CircularProgress'
 
 import styles from './css/login.module.scss'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import { user, token } from '../../services/stores'
 
 @observer
 class Login extends Component {
@@ -25,6 +26,15 @@ class Login extends Component {
     setTimeout(() => {
       this.isIn = true
     }, 100)
+
+    if (user.isLoggedIn) return this.props.history.push('/dashboard/home')
+    this.tokenDisposer = observe(token, 'isSettingUp', () => {
+      if (!token.isSettingUp && user.isLoggedIn) this.props.history.push('/dashboard/home')
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.tokenDisposer) this.tokenDisposer()
   }
 
   handleChange(name, value) {
@@ -36,7 +46,9 @@ class Login extends Component {
   }
 
   renderButton() {
-    if (!this.isLoading) return (
+    if (user.isLoadingLogin) return <CircularProgress className={styles.loading} /> 
+
+    return (
       <Button 
         fullWidth 
         size="large"
@@ -52,9 +64,15 @@ class Login extends Component {
     )
   }
 
-  onSubmit = e => {
+  onSubmit = async e => {
     e.preventDefault()
-    this.gotoDashboard()
+
+    //login 
+    let token = await user.login(this.email, this.password)
+    
+    if (token) {
+      this.gotoDashboard()
+    }
   }
 
   gotoDashboard() {
@@ -63,6 +81,12 @@ class Login extends Component {
   }
 
   render() {
+    if (token.isSettingUp) return (
+      <div className={styles['loading-wrapper']} >
+        <CircularProgress className={styles.loading} /> 
+      </div>
+    )
+
     return (
       <div className={styles.container} >
         <form 

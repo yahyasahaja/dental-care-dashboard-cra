@@ -12,4 +12,23 @@
     position: absolute;
     opacity: .8;
   }
+
+  .loading {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000000;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    div {
+      width: 50px;
+      height: 50px;
+    }
+  }
 }
