@@ -294,17 +294,27 @@ class Membership extends Component {
     } = this
 
     try {
-      let customer = {
-        age,
-        gender,
-        phone,
-      }
 
       let body = {
         name,
         email,
         role,
-        customer,
+      }
+
+      if (role === 'customer') {
+        body.customer = {
+          age,
+          gender,
+          phone,
+        }
+      }
+
+      if (role === 'doctor') {
+        body.doctor = {
+          age,
+          gender,
+          phone,
+        }
       }
 
       if (password.length > 0) body.password = password
@@ -318,7 +328,7 @@ class Membership extends Component {
         )
 
       console.log(data)
-      snackbar.show('New user was created')
+      snackbar.show(`New user was ${isNew ? 'created' : 'updated'}`)
       await this.fetchUsers()
     } catch (err) {
       snackbar.show('There is an error occured. Adding a new user was failed')
