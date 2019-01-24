@@ -65,7 +65,8 @@
     "dev": "node scripts/start.js",
     "start": "serve -s build",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "deploy-heroku": "yarn build && git push heroku master"
   },
   "eslintConfig": {
     "extends": "react-app"
