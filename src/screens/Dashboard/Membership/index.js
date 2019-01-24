@@ -95,9 +95,11 @@ class Membership extends Component {
   async getUserById(id) {
     try {
       this.isFetchingUser = true
+      this.reset()
       let { data: { data } } = await axios.get(`/api/users/${id}`)
       this.isFetchingUser = false
       for (let loc in data) this[loc] = data[loc]
+      if (this.customer) for (let loc in this.customer) this[loc] = this.customer[loc]
       return data
     } catch (err) {
       this.isFetchingUser = false
@@ -217,14 +219,17 @@ class Membership extends Component {
             ? (
               <React.Fragment>
               <TextField
+                select
                 label="Gender"
-                fullWidth
-                margin="dense"
-                variant="outlined"
-                onChange={e => this.handleChange('gender', e.target.value)}
                 value={this.gender}
-                type="text"
-              />
+                onChange={e => this.handleChange('gender', e.target.value)}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+              >
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+              </TextField>
               <TextField
                 label="Age"
                 fullWidth
@@ -262,6 +267,7 @@ class Membership extends Component {
     this.shouldShowPassword = false
     this.search = ''
     this.filter = 'all'
+    this.customer = null
   }
 
   onSearchChange = search => {
@@ -288,13 +294,17 @@ class Membership extends Component {
     } = this
 
     try {
+      let customer = {
+        age,
+        gender,
+        phone,
+      }
+
       let body = {
         name,
         email,
         role,
-        age,
-        gender,
-        phone,
+        customer,
       }
 
       if (password.length > 0) body.password = password
@@ -395,7 +405,7 @@ class Membership extends Component {
             {this.renderEditUser()}
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.isEditModalActive = false} color="primary">
+            <Button onClick={() => this.isEditModalActive = false} color="secondary">
               Close
             </Button>
             <Button onClick={this.onSave} color="primary" autoFocus>
