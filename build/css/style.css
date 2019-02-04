@@ -40,9 +40,9 @@ body {
     background-color: #dadada;
 }
 
-html, body, #app, #app>div {
+/* html, body, #app, #app>div {
   	height: 100%
-}
+} */
 
 .wrapper {
     width: 100%;

@@ -21,7 +21,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 import styles from './css/membership.module.scss'
-import { user, snackbar, overlayLoading } from '../../../services/stores'
+import { user, snackbar, overlayLoading, floatingButton } from '../../../services/stores'
 
 const ROWS = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
@@ -57,22 +57,30 @@ class Membership extends Component {
   @observable isDeleteDialogActive = false
 
   componentDidMount() {
+    floatingButton.onClick = () => {
+      this.reset()
+      this.isNew = true
+      this.isEditModalActive = true
+    }
+    floatingButton.show()
+
     if (user.isLoggedIn) this.fetchUsers()
     this.userDisposer = observe(user, 'data', () => {
-      console.log('berubah?')
+      // console.log('berubah?')
       if (user.isLoggedIn) this.fetchUsers()
     })
   }
 
   componentWillUnmount() {
     if (this.userDisposer) this.userDisposer()
+    floatingButton.hide()
   }
 
   async fetchUsers() {
     let users = await user.getUsers()
     if (!users) return
 
-    console.log('hasil', users)
+    // console.log('hasil', users)
     this.users = users
   }
 
@@ -140,7 +148,7 @@ class Membership extends Component {
             this.isNew = false
             this.isEditModalActive = true
             await this.getUserById(id)
-            console.log('edit modal actived for', id)
+            // console.log('edit modal actived for', id)
             //fetch detail of n.id
           }}
           onDelete={selected => {
@@ -275,7 +283,7 @@ class Membership extends Component {
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       //fetch
-      console.log('fetch with search query', search)
+      // console.log('fetch with search query', search)
     }, 1000)
   }
 
@@ -327,7 +335,7 @@ class Membership extends Component {
           body
         )
 
-      console.log(data)
+      // console.log(data)
       snackbar.show(`New user was ${isNew ? 'created' : 'updated'}`)
       await this.fetchUsers()
     } catch (err) {
@@ -347,18 +355,6 @@ class Membership extends Component {
 
     return (
       <div className={styles.container} >
-        <div className={styles.add} >
-          <Fab 
-            onClick={() => {
-              this.reset()
-              this.isNew = true
-              this.isEditModalActive = true
-            }}
-            color="primary" aria-label="Add" 
-            className={styles.fab}>
-            <AddIcon />
-          </Fab>
-        </div>
         <div className={styles.filter} >
           <TextField
             select

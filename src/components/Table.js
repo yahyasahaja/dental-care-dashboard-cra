@@ -226,7 +226,7 @@ class EnhancedTable extends React.Component {
                   return (
                     <TableRow
                       hover
-                      onClick={() => this.props.onRowClick(n.id)}
+                      onClick={() => this.props.onRowClick(n.id, n)}
                       style={{cursor: 'pointer'}}
                       role="checkbox"
                       aria-checked={isSelected}
@@ -243,8 +243,18 @@ class EnhancedTable extends React.Component {
                         }}>
                         <Checkbox checked={isSelected} />
                       </TableCell>
-                      {rows.map((row, i) => <TableCell key={i}
-                      >{n[row.id]}</TableCell>)}
+                      {
+                        rows.map((row, i) => {
+                          return (
+                            <TableCell onClick={e => {
+                              if (row.disablePropagation) {
+                                e.stopPropagation()
+                              }
+                            }} key={i}>
+                              {n[row.id]}
+                            </TableCell>
+                          )
+                        })}
                     </TableRow>
                   )
                 })}
@@ -256,20 +266,24 @@ class EnhancedTable extends React.Component {
             </TableBody>
           </Table>
         </div>
-        <TablePagination
-          rowsPerPageOptions={[]}
-          component="div"
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={this.handleChangePage}
-        />
+        {
+          !this.props.noPagination && (
+            <TablePagination
+              rowsPerPageOptions={[]}
+              component="div"
+              count={data.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              backIconButtonProps={{
+                'aria-label': 'Previous Page',
+              }}
+              nextIconButtonProps={{
+                'aria-label': 'Next Page',
+              }}
+              onChangePage={this.handleChangePage}
+            />
+          )
+        }
       </div>
     )
   }

@@ -4,6 +4,8 @@ import LoadingPage from './screens/Loading'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import styles from './App.module.scss'
 import axios from 'axios'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
 import { BASE_URL } from './config'
 // import user from './services/stores/user'
 import { 
@@ -19,7 +21,7 @@ import {
 
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import { snackbar, token, overlayLoading } from './services/stores'
+import { snackbar, token, overlayLoading, floatingButton } from './services/stores'
 import { observer } from 'mobx-react'
 
 const Login = React.lazy(
@@ -37,7 +39,7 @@ axios.defaults.headers['Content-Type'] = 'application/json'
 class App extends Component {
   async componentDidMount() {
     await token.setup()
-    snackbar.show('abc')
+    // snackbar.show('abc')
   }
 
   renderOverlayLoading() {
@@ -87,6 +89,17 @@ class App extends Component {
               </IconButton>,
             ]}
           />
+        </section>
+        <section>
+          <div className={styles.add} >
+            <Fab 
+              style={{display: floatingButton.isActive ? 'inline-flex' : 'none'}}
+              onClick={floatingButton.onClick}
+              color="primary" aria-label="Add" 
+              className={styles.fab}>
+              <AddIcon />
+            </Fab>
+          </div>
         </section>
         {this.renderOverlayLoading()}
       </div>

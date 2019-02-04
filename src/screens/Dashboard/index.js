@@ -20,6 +20,7 @@ import Wrapper from './Wrapper'
 //ROUTERS
 import Membership from './Membership'
 import { user, token } from '../../services/stores'
+import DoctorActivity from './DoctorActivity'
 
 const ROUTER = [
   {
@@ -54,9 +55,9 @@ const ROUTER = [
   },
   {
     title: 'Doctor Activity',
-    path: '/dashboard/doctor',
+    path: '/dashboard/doctors',
     icon: 'doctor',
-    Component: () => 'Doctor Activity'
+    Component: DoctorActivity
   },
   {
     title: 'Training',
