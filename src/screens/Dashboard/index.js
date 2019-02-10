@@ -19,6 +19,7 @@ import Wrapper from './Wrapper'
 
 //ROUTERS
 import Membership from './Membership'
+import Categories from './Categories'
 import { user, token } from '../../services/stores'
 import DoctorActivity from './DoctorActivity'
 
@@ -39,7 +40,7 @@ const ROUTER = [
     title: 'Categories',
     path: '/dashboard/categories',
     icon: 'account-details',
-    Component: () => 'Categories'
+    Component: Categories
   },
   {
     title: 'Reservation',
